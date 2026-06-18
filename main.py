@@ -1,51 +1,56 @@
 import os
 import time
-import pyfiglet
 from pyfiglet import Figlet
 
 FONT = Figlet(font='slant')
 
 def clear_screen():
-    print("Restarting in 10 secounds")
+    print("Restarting in 10 seconds...")
     time.sleep(10)
-    os.system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
+def int_input(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Sorry, only integers accepted, try again.")
 
-while (True):
-    try:
-        print(FONT.renderText("Calculator"))
-        number = int(input("number 1: "))
-        number2 = int(input("number 2: "))
-        opt = input("+, -, *, /: ")
-    except:
-        print("invalid number.")
-        continue
+while True:
+    print(FONT.renderText("Calculator"))
 
-    if opt == "q":
-        print("goodbye")
-        break
+    number = int_input("Number1: ")
+    number2 = int_input("Number2: ")
+    opt = input("+, -, *, / (or q to quit): ")
 
     match opt:
+        case 'q':
+            print("Goodbye!")
+            break
+
         case '+':
             result = number + number2
             print(f"Result: {result}")
             clear_screen()
+
         case '-':
             result = number - number2
             print(f"Result: {result}")
-            clear_screen() 
+            clear_screen()
+
         case '*':
             result = number * number2
             print(f"Result: {result}")
-            clear_screen() 
+            clear_screen()
+
         case '/':
-            if number2 != 0:
+            if number2 == 0:
+                print("Cannot divide by 0")
+            else:
                 result = number / number2
                 print(f"Result: {result}")
-                clear_screen()
-            else:
-                print("Cannot david by 0") 
-                clear_screen()
+            clear_screen()
+
         case _:
-            print("Not a OPT")
+            print("Not an allowed operation")
             clear_screen()
